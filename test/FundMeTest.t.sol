@@ -12,6 +12,7 @@ contract FundMeTest is Test {
     address USER = makeAddr("user");
     uint256 constant STARTING_BALANCE = 10 ether;
     uint256 constant SEND_VALUE = 0.1 ether; // 100000000000000000 wei
+    uint256 constant GAS_PRICE = 1;
     
     function setUp() external {
         // fundMe = new FundMe(0x694AA1769357215DE4FAC081bf1f309aDC325306);
@@ -83,7 +84,7 @@ function testWithdrawFromMultipleFunders() public funded {
         uint160 startingFunderIndex = 1;
 
         for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
-            hoax(address(i), STARTING_BALANCE); // hoax hace vm.prank y vm.deal en una sola llamada
+            hoax(address(i), SEND_VALUE); // hoax hace vm.prank y vm.deal en una sola llamada
             fundMe.fund{value: SEND_VALUE}();
         }
 
@@ -91,10 +92,12 @@ function testWithdrawFromMultipleFunders() public funded {
         uint256 startingFundMeBalance = address(fundMe).balance;
 
         // Act 
-        vm.startPrank(fundMe.getOwner());
+        // vm.startPrank(fundMe.getOwner());
+        vm.prank(fundMe.getOwner());
         fundMe.withdraw();
-        vm.stopPrank();
+        // vm.stopPrank();
 
+        // console.log("Starting FundMe Balance: ", startingFundMeBalance);
         // Assert
         assert(address(fundMe).balance == 0);
         assert(

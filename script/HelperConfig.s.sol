@@ -63,6 +63,7 @@ contract HelperConfig is Script {
         );
         vm.stopBroadcast();
 
+        // console.log("Mock Price Feed deployed at: ", address(mockPriceFeed));
         NetworkConfig memory anvilConfig = NetworkConfig({
             priceFeed: address(mockPriceFeed)
             });
