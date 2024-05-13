@@ -20,7 +20,7 @@ contract FunWithStorage {
         someBool = true; // See stored spot above // SSTORE
         myArray.push(222); // SSTORE
         myMap[0] = true; // SSTORE
-        i_not_in_storage = 123;
+        i_not_in_storage = 1234;
     }
 
     // function doStuff() public {
